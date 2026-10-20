@@ -88,6 +88,28 @@ assign carry = (OP == 3'b000) ? full_sum[4] : (OP == 3'b100) ? full_sub[4] : 1'b
 
 endmodule
 
+// ----------------------------- Flag Register -----------------------------
+// following the model of 74HC173
+
+module flag_register(
+    input        clk,
+    input        flag_write_n,
+    input        zero_in,
+    input        equal_in,
+    input        carry_in,
+    output reg   zero_out,
+    output reg   equal_out,
+    output reg   carry_out
+);
+    always @(posedge clk) begin
+        if (!flag_write_n) begin
+            zero_out  <= zero_in;
+            equal_out <= equal_in;
+            carry_out <= carry_in;
+        end
+    end
+endmodule
+
 // ----------------------------- 256B Memory -----------------------------
 
 module memory_256B(
